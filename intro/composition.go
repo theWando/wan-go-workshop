@@ -6,7 +6,7 @@ import "fmt"
 type Wolf struct {
 }
 
-func (w Wolf) Howl()  {
+func (w Wolf) Howl() {
 	fmt.Println("Auuuuuuuuu!")
 }
 
@@ -21,6 +21,7 @@ func (d Dog) Bark() {
 func canHowl(_ Wolf) bool {
 	return true
 }
+
 // END OMIT
 
 func main() {

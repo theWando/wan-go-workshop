@@ -48,6 +48,26 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/intro/bad-hello.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/intro/composition.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/intro/hello.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/intro/racer.go">
+          <value>
+            <set />
+          </value>
+        </entry>
       </map>
     </option>
   </component>

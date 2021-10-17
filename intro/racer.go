@@ -16,4 +16,5 @@ func main() {
 	go race()
 	time.Sleep(1 * time.Second)
 }
+
 // END OMIT
