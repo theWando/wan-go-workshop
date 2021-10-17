@@ -72,7 +72,7 @@ Pero si la composición.
 
 ## Detección de Condiciones de Carrera --continuación
 
-Ejecutando ese código con `$ go run -race racer.go` arroja los siguientes errores:
+Ejecutando ese código con `$ go run -race basics/racer.go` arroja los siguientes errores:
 
     ==================
     WARNING: DATA RACE
@@ -93,3 +93,23 @@ Ejecutando ese código con `$ go run -race racer.go` arroja los siguientes error
     /Users/elaguna/go/src/wan-go-workshop/basics/racer.go:15 +0x2b
     ==================
     Found 1 data race(s)
+
+: ¿alguien puede decir que hay de valor en esta salida?
+
+## ¿Por que aprender Go?
+
+Según la encuesta de stack overflow para 2021:
+- Go es el 4to lenguaje mas deseado (wanted), 14.54% de 82914 respuestas.
+- Devs que programan en TS, JS, Node.js, Python y Java han mostrado interes en Go.
+- Go es el 9no lenguaje mejor pagado (Clojeure es el 1ro, Java el 34vo, Node.js el 27mo)
+
+## ¿Que herramienta debo usar para programar en Go?
+
+Las IDEs mas preferidas según la encuesta de Go:
+
+.image img/prefered-ide.png
+.image img/prefered-ide-years.png
+
+## ¿Que gestor de dependencias debería usar en Go?
+
+.image img/modules_adoption_yoy.svg
