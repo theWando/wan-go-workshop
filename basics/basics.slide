@@ -1,0 +1,95 @@
+# Escuelita de WanGo
+
+Workshop práctico de Go
+17 Oct 2021
+Summary: Curso práctico sobre el lenguaje de programación Go
+
+Author Eduardo Laguna
+Backend Developer en Mercado Libre
+https://spiky-mind-7a1.notion.site/Wando-on-Go-519bbd238ce6488787822d2be5f407c3
+coder.eduardo@gmail.com
+@wrcdriver
+
+## ¿Que es Go?
+
+Es un lenguaje de programación estátiicamente tipado y compilados diseñado en Google... es sintácticamente similar a C, 
+pero con seguridad de memoria, recolector de basura, tipado estructural y un estilo concurrente de 
+comunicasión de procesos secuencial.
+
+.play hello.go
+
+## Sus creadores
+
+.image img/go-creators.jpeg
+
+Lo diseñaronc en Google en el año 2009 por Robert Griesemer, Rob Pike, and Ken Thompson.
+
+: los dos últimos crearon UTF-8, trabajaron en Bell Labs trabajando en la creación de distintos sistemas operativos distribuid
+
+## Características
+
+- Es compilado
+- Usa un Garbage Collector
+- Ser estáticamente tipado
+- Basarse en estructuras (`struct`s).
+- No tiene herencia (no OOO).
+- Soportar programación funcional.
+
+## Características
+
+- Las funciones pueden retornar mas de un valor.
+- Tiene soporte para pruebas y benchmark
+- Tener pocos keywords (25)
+- Las interfaces están desacopladas de quienes la implementan.
+- `$ go` también es un toolchain.
+- El código fuente esta en UTF-8
+
+## Es prolijo
+
+Dará errores de compilación si tienes imports y variables sin usar.
+
+.play bad-hello.go
+
+.play bad-hello-var.go
+
+## Tiene su opinión con el formato del código
+
+.image img/go_tools_gofmt.animated.gif
+
+## No existe la herencia
+
+Pero si la composición.
+
+.code -numbers composition.go /START OMIT/,/END OMIT/
+
+## No existe la herencia --continuación
+
+.play -numbers composition.go /^func main/,/^}/
+
+## Detección de Condiciones de Carrera
+
+.code -numbers racer.go
+
+## Detección de Condiciones de Carrera --continuación
+
+Ejecutando ese código con `$ go run -race racer.go` arroja los siguientes errores:
+
+    ==================
+    WARNING: DATA RACE
+    Read at 0x00000115b348 by goroutine 7:
+    main.race()
+    /Users/elaguna/go/src/wan-go-workshop/basics/racer.go:11 +0x29
+    
+    Previous write at 0x00000115b348 by goroutine 6:
+    main.race()
+    /Users/elaguna/go/src/wan-go-workshop/basics/racer.go:11 +0x44
+    
+    Goroutine 7 (running) created at:
+    main.main()
+    /Users/elaguna/go/src/wan-go-workshop/basics/racer.go:16 +0x39
+    
+    Goroutine 6 (finished) created at:
+    main.main()
+    /Users/elaguna/go/src/wan-go-workshop/basics/racer.go:15 +0x2b
+    ==================
+    Found 1 data race(s)
