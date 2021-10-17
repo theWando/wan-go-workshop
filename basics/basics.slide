@@ -1,0 +1,60 @@
+# Introducción a Go
+
+Conceptos básicos de Go
+17 Oct 2021
+Summary: Curso práctico sobre el lenguaje de programación Go
+
+Author Eduardo Laguna
+Backend Developer en Mercado Libre
+https://spiky-mind-7a1.notion.site/Wando-on-Go-519bbd238ce6488787822d2be5f407c3
+coder.eduardo@gmail.com
+@wrcdriver
+
+
+## main
+
+Casi todo lenguaje tiene el clásico ejemplo de "hola mundo", en Go esta es la forma mas sencilla de hacerlo:
+
+.play ../intro/hello.go
+
+## Funciones
+    func()
+    func(x int) int
+    func(a, _ int, z float32) bool
+    func(a, b int, z float32) (bool)
+    func(prefix string, values ...int)
+    func(a, b int, z float64, opt ...interface{}) (success bool)
+    func(int, int, float64) (float64, *[]int)
+    func(n int) func(p *T)
+
+## struct
+
+Los tipos de datos en Go se basan en estructuras, donde no se tiene herencia pero se puede 
+tomar otros comportamientos gracias a la composición.
+
+.code -numbers ../intro/composition.go /START OMIT/,/END OMIT/
+
+## Métodos
+
+Son funciones asociadas a un tipo de dato
+
+.code operation.go /START OMIT/,/END OMIT/
+
+## Métodos - Value receiver
+
+.code operation.go /^func .+ Get/,/^}/
+
+## Métodos - Pointer receiver
+
+.play operation.go /^func .+ Sum/,/^}/
+
+    Output:
+    ========
+    Sum:  10
+    main: 10
+
+.play fails/operation-no.pointer.go /START OMIT/,/END OMIT/
+    Output:
+    =======
+    Sum: 10
+    main: 6

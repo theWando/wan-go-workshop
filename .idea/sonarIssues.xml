@@ -28,12 +28,32 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/basics/fails/operation-no.pointer.go">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/basics/foo.go">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/basics/go.mod">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/basics/hello.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/basics/operation-no.pointer.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/basics/operation.go">
           <value>
             <set />
           </value>
@@ -49,6 +69,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/intro/bad-hello.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/intro/basics.slide">
           <value>
             <set />
           </value>
