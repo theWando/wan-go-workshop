@@ -54,7 +54,7 @@ Dará errores de compilación si tienes imports y variables sin usar.
 
 ## Tiene su opinión con el formato del código
 
-.image img/go_tools_gofmt.animated.gif
+.image img/go_tools_gofmt.animated.gif 500 _
 
 ## No existe la herencia
 
@@ -112,4 +112,10 @@ Las IDEs mas preferidas según la encuesta de Go:
 
 ## ¿Que gestor de dependencias debería usar en Go?
 
-.image img/modules_adoption_yoy.svg
+.image img/modules_adoption_yoy.svg 500 _
+
+## ¿Que compañias usan Go?
+
+.image img/who-uses-go.png _ 1000
+
+.caption MercadoLibre Grows with Go [[https://go.dev/solutions/mercadolibre]]
