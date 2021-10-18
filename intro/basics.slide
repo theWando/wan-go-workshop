@@ -96,6 +96,75 @@ Ejecutando ese código con `$ go run -race basics/racer.go` arroja los siguiente
 
 : ¿alguien puede decir que hay de valor en esta salida?
 
+## Benchmarks
+
+Go cuenta con la posibilidad de mostrar la cantidad de operaciones, bytes 
+usaados y alocaciones de memoria, donde podemos hacer cosas como:
+
+    func BenchmarkNewDirectOrderProcessor(b *testing.B) {
+        b.ReportAllocs()
+        engine, _ := cartconfig.CartConfigGlobal.GetRuleEngine("OrderController")
+    
+        for i := 0; i < b.N; i++ {
+            NewDirectOrderProcessor(engine)
+        }
+    }
+
+## Benchmarks --continuación
+
+Y donde teniendo este código:
+
+    func NewDirectOrderProcessor(engine *ruleengine.RuleEngine) *EventProcessor {
+        processor := new(EventProcessor)
+        processor.Engine = engine
+        processor.ContextLoader = new(contextloader.OrderContextLoader)
+        processor.EventValidator = new(eventvalidator.EntityValidator)
+        processor.ContextValidator = new(contextvalidator.AlwaysValid)
+        processor.Entity = "OrderProcessor"
+    
+        return processor
+    }
+
+No arroja estos resultados:
+    
+    BenchmarkNewDirectOrderProcessor-12    	26.310.609      44.79 ns/op     80 B/op 	1 allocs/op
+
+.caption codigo en [[https://github.com/mercadolibre/fury_buyingflow-notifications/blob/develop/src/api/inputprocessor/direct_order_processor.go][buyingflow-notifications]]
+
+: Muestra que este constructor fue ejecutado sobre 26 millones de veces a una velocidad de 44.79 operaciones por nanosegundo ocupando 80 bytes por operación y reservando solo 1 espacio en memoria por operación 
+
+
+## Benchmarks --continuación
+
+Haciendo unos pequeños ajustes:
+
+    func NewDirectOrderProcessor(engine *ruleengine.RuleEngine) *EventProcessor {
+        const entity = "OrderProcessor"
+        processor := &EventProcessor{
+            Engine:           engine,
+            ContextLoader:    &contextloader.OrderContextLoader{},
+            EventValidator:   &eventvalidator.EntityValidator{},
+            ContextValidator: &contextvalidator.AlwaysValid{},
+            Entity:           entity,
+        }
+    
+        return processor
+    }
+
+¿Cual creen que fue el impacto causado? positivo o negativo, cuanta magniitud.
+
+## Benchmarks --continuación
+
+Antes:
+
+    BenchmarkNewDirectOrderProcessor-12    	26.310.609      44.79 ns/op     80 B/op 	1 allocs/op
+
+Después:
+
+    BenchmarkNewDirectOrderProcessor-12    	658.530.207     1.909 ns/op     0 B/op      0 allocs/op
+
+: Con este sencillo cambio este constructor fue ejecutado sobre 658 millones de veces a una velocidad de 1909 operaciones por nanosegundo ocupando 0 bytes por operación y sin reservar en memoria
+
 ## ¿Por que aprender Go?
 
 Según la encuesta de stack overflow para 2021:
