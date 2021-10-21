@@ -22,7 +22,7 @@ comunicasión de procesos secuencial.
 
 .image img/go-creators.jpeg
 
-Lo diseñaronc en Google en el año 2009 por Robert Griesemer, Rob Pike, and Ken Thompson.
+Lo diseñaron en Google en el año 2009 por Robert Griesemer, Rob Pike, and Ken Thompson.
 
 : los dos últimos crearon UTF-8, trabajaron en Bell Labs trabajando en la creación de distintos sistemas operativos distribuid
 
@@ -32,7 +32,7 @@ Lo diseñaronc en Google en el año 2009 por Robert Griesemer, Rob Pike, and Ken
 - Usa un Garbage Collector
 - Ser estáticamente tipado
 - Basarse en estructuras (`struct`s).
-- No tiene herencia (no OOO).
+- No tiene herencia (no OOP).
 - Soportar programación funcional.
 
 ## Características
@@ -99,7 +99,8 @@ Ejecutando ese código con `$ go run -race basics/racer.go` arroja los siguiente
 ## Benchmarks
 
 Go cuenta con la posibilidad de mostrar la cantidad de operaciones, bytes 
-usaados y alocaciones de memoria, donde podemos hacer cosas como:
+usados y alocaciones de memoria, donde podemos hacer cosas como:
+
 
     func BenchmarkNewDirectOrderProcessor(b *testing.B) {
         b.ReportAllocs()
@@ -171,6 +172,18 @@ Para entender porque sucede un cambio tan radical con un cambio tan simple es ne
 hace detrás de lo que hacemos, para ello Go nos provee un profiler.
 
 El profiling es útil para identificar secciones de código que son costosas o frecuentemente invocadas.
+
+## Profilers --continuación
+
+En la primera versión del código tenemos lo siguiente:
+
+.image img/profiling-calls-before.png _ 1000
+
+## Profilers --continuación
+
+En la segunda versión del código tenemos lo siguiente:
+
+.image img/profiling-calls-after.png _ 1000
 
 ## ¿Por que aprender Go?
 
