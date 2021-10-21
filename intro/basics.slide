@@ -165,6 +165,13 @@ Después:
 
 : Con este sencillo cambio este constructor fue ejecutado sobre 658 millones de veces a una velocidad de 1909 operaciones por nanosegundo ocupando 0 bytes por operación y sin reservar en memoria
 
+## Profilers
+
+Para entender porque sucede un cambio tan radical con un cambio tan simple es necesario entender que se 
+hace detrás de lo que hacemos, para ello Go nos provee un profiler.
+
+El profiling es útil para identificar secciones de código que son costosas o frecuentemente invocadas.
+
 ## ¿Por que aprender Go?
 
 Según la encuesta de stack overflow para 2021:
