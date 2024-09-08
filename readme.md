@@ -1,6 +1,16 @@
 # wand-go workshop
 
-Ejecuta localmente usando ``.
+## Install present tool
+
+```bash
+go install golang.org/x/tools/cmd/present@latest
+```
+
+## Run
+
+```bash
+present -notes
+```
 
 Lo puedes ver en:
 
