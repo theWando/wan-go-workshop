@@ -1,0 +1,59 @@
+# Class 1
+
+We'll learn how to:
+
+- Use the `http.HandlerFunc` to create a simple HTTP server.
+- Use the `http.ServeMux` to create a simple router.
+- Create a simple HTTP client to fetch data from a public API.
+- Deserialize JSON data into a struct.
+- Run some tests to make sure our client works as expected.
+- We'll learn how to use the `net/http/httptest` package to test our client.
+- Use the context.
+
+Author Eduardo Laguna
+Software Architect at AffinityClick Inc.
+https://spiky-mind-7a1.notion.site/Wando-on-Go-519bbd238ce6488787822d2be5f407c3
+coder.eduardo@gmail.com
+@wrcdriver
+
+
+## net/http
+
+Go has the [net/http](https://pkg.go.dev/net/http) package that provides HTTP client and server implementations.
+
+Some of the most important things in this package are:
+
+* [`http.HandlerFunc`](https://pkg.go.dev/net/http#HandleFunc): It's a function that receives a response writer and a request.
+* [`http.Request`](https://pkg.go.dev/net/http#Request) and
+[`http.ResponseWriter`](https://pkg.go.dev/net/http#Response): These are the request and response objects.
+* [`http.ListenAndServe`](https://pkg.go.dev/net/http#ListenAndServe) and
+[`http.ListenAndServeTLS`](https://pkg.go.dev/net/http#ListenAndServeTLS): These functions start an HTTP server.
+
+## http.HandlerFunc
+
+The `http.HandlerFunc` is a function that receives a response writer and a request.
+
+```go
+func HandleFunc(pattern string, handler func(ResponseWriter, *Request))
+```
+
+## http.HandlerFunc Example
+
+.code -numbers example/examples/handlefunc/handlefunc.go /^func StartServer/,/^}/
+
+## Making a Simple GET request
+
+.code -numbers example/examples/handlefunc/handlefunc.go /^func SimpleRequest/,/^}/
+
+Internally, the `http.Get` function uses a default client created in the `http` package and makes a GET request.
+
+## Making a GET request with a Client
+
+But we can instantiate our client and make a requests with it.
+
+.code -numbers example/examples/handlefunc/handlefunc.go /^func RequestWithAClient/,/^}/
+
+## http.Request and Response Example
+
+.code -numbers example/examples/handlefunc/handlefunc.go /^func RequestWithContext/,/^}/
+
