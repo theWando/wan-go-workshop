@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -17,6 +20,7 @@ func main() {
 		RequestWithContext()
 	}()
 
+	LoadHandlers()
 	StartServer()
 }
 
@@ -41,29 +45,62 @@ func SimpleRequest() {
 	if err != nil {
 		panic(err)
 	}
-	defer res.Body.Close()
+	defer func(Body io.ReadCloser) {
+		_, _ = io.Copy(io.Discard, Body)
+		_ = Body.Close()
+	}(res.Body)
 	body := make([]byte, res.ContentLength)
 	_, _ = res.Body.Read(body)
 	log.Println("Response from /endpoint:", res.Status, "Body", string(body))
 }
 
-func StartServer() {
-	http.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
-		io.WriteString(w, "Hello from a HandleFunc #1!\n")
-	})
-	http.HandleFunc("/endpoint", func(w http.ResponseWriter, _ *http.Request) {
-		io.WriteString(w, "Hello from a HandleFunc #2!\n")
-	})
+type Poster struct {
+	Name   string `json:"name"`
+	School string `json:"school"`
+	Scar   bool   `json:"scar"`
+}
 
+func LoadHandlers() {
+	http.HandleFunc("GET /hello/{name...}", func(w http.ResponseWriter, r *http.Request) {
+		name := r.PathValue("name")
+		if name == "" {
+			name = "World"
+		}
+		_, _ = io.WriteString(w, fmt.Sprintf("Hello %s from a HandleFunc #1!\n", name))
+	})
+	http.HandleFunc("POST /hello/poster", func(w http.ResponseWriter, r *http.Request) {
+		defer func(Body io.ReadCloser) {
+			_, _ = io.Copy(io.Discard, Body)
+		}(r.Body)
+
+		var poster Poster
+		if err := json.NewDecoder(r.Body).Decode(&poster); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		_, _ = io.WriteString(w, fmt.Sprintf("Hello %v from a HandleFunc #2!\n", poster))
+	})
+}
+
+func StartServer() {
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func RequestWithContext() {
-	ctx := context.Background()
-
 	client := &http.Client{}
+	poster := Poster{
+		Name:   "Harry",
+		School: "Hogwarts",
+		Scar:   true,
+	}
+	posterJSON, err := json.Marshal(poster)
+	if err != nil {
+		panic(err)
+	}
+	reader := bytes.NewReader(posterJSON)
 
-	r1, err := http.NewRequestWithContext(ctx, "GET", "http://localhost:8080/", nil)
+	ctx := context.Background()
+	r1, err := http.NewRequestWithContext(ctx, http.MethodPost, "http://localhost:8080/hello/poster", reader)
 	if err != nil {
 		panic(err)
 	}
@@ -71,7 +108,9 @@ func RequestWithContext() {
 	if err != nil {
 		panic(err)
 	}
-	defer res1.Body.Close()
+	defer func(Body io.ReadCloser) {
+		_, _ = io.Copy(io.Discard, Body)
+	}(res1.Body)
 	body := make([]byte, res1.ContentLength)
 	_, _ = res1.Body.Read(body)
 	log.Println("Response from /:", res1.Status, "Body", string(body))

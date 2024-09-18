@@ -1,6 +1,6 @@
 # Class 1
 
-We'll learn how to:
+We'll learn how to
 
 - Use the `http.HandlerFunc` to create a simple HTTP server.
 - Use the `http.ServeMux` to create a simple router.
@@ -37,9 +37,74 @@ The `http.HandlerFunc` is a function that receives a response writer and a reque
 func HandleFunc(pattern string, handler func(ResponseWriter, *Request))
 ```
 
+: The `http.HandlerFunc` is a function that receives a response writer and a request.
+: You can see that handler parameter is a function that receives a `ResponseWriter` and a `*Request`.
+: Hence, you can declare function inside a function's signature.
+
 ## http.HandlerFunc Example
 
-.code -numbers example/examples/handlefunc/handlefunc.go /^func StartServer/,/^}/
+.code -numbers example/examples/handlefunc/handlefunc.go /^func LoadHandlers/,/^}/
+
+: Here is a simple example on using the `http.HandlerFunc` to attach two endpoints to a server.
+: The first endpoint has a path parameter that we can access with the `PathValue` function, and you can see a simple `if`
+: that just checks if the name variable is empty, if that is the case "World" is assigned to it.
+: The we call the `io.WriteString` function to write the response to the client, if we haven't set a status code,
+: Go assumes it's a successful request and sets the status code to 200.
+:
+: The second endpoint is a POST one, that does not have a path parameter, but it reads the body of the request
+: and writes it back to the client.
+: We can also see that we have a defer statement that will drains the body of the request when the
+: function ends, this is like a finally clause in other languages, where the function is called always before
+: the function exits.
+: The defer statements functions as a FIFO queue, so the last defer statement is the first one to be executed.
+:
+: On line 76 we initialize a Poster variable, notice that the decoder is initialized with the request body, and the
+: Poster variable is passed as a pointer to the Decode function.
+: The `json.NewDecoder` function receives an `io.Reader`, while the request's body is an `io.ReadCloser`, the
+: `io.ReadCloser` interface is a superset of the `io.Reader` interface, so it can be used as a parameter to the
+: `json.NewDecoder` function, the Closer interface is used to close the resource when it's not needed anymore, that is
+: why the `defer` statement does not need to close the body of the request, since it will be closed by the server.
+:
+: If there is an error decoding the request, the server will return a 400 status code, and the error message will be
+: written to the client.
+
+## JSON Tags
+
+The `json` package uses struct tags to map the fields of a struct to the fields of a JSON object.
+
+```
+Field int `json:"myName"`
+
+Field int `json:"myName,omitempty"`
+
+Field int `json:",omitempty"`
+
+Field int `json:"-"`
+
+Field int `json:"-,"`
+```
+
+: The first line; Field appears in JSON as key "myName".
+
+: The second line; Field appears in JSON as key "myName" and
+: the field is omitted from the object if its value is empty,
+: as defined above.
+
+: The third line; Field appears in JSON as key "Field" (the default), but
+: the field is skipped if empty.
+: Note the leading comma.
+
+: The fourth line; Field is ignored by this package.
+
+: The fifth line; Field appears in JSON as key "-".
+
+## Tagging a struct
+
+.code -numbers example/examples/handlefunc/handlefunc.go /^type Poster/,/^}/
+
+: Here we have a simple struct that will be used to decode the JSON object that the client sends to the server.
+: The `json` tag is used to map the fields of the struct to the fields of the JSON object.
+: We use the same definition of json tags for xml, yaml, etc.
 
 ## Making a Simple GET request
 
